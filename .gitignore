@@ -1,4 +1,5 @@
 # # # # # # # # # # PROJECT GITIGNORE
+ghostdriver.log
 
 # # # # # # # # # # GLOBAL GITIGNORE
 .DS_Store
