@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 _driverUrl = "http://facebook.com"
 _facebookPage = "https://www.facebook.com/pages/The-same-photo-of-Juan-in-a-Sonic-costume-everyday/1549049825344078"
-_file = "/Users/jsalcido/Desktop/stuff/sonic.jpg"
+_file = os.getcwd() + "/sonic.jpg"
 
 def initializeDriver(url):
     print("Starting driver at: " + _driverUrl)
@@ -26,6 +26,7 @@ def main():
     login(webDriver)
     uploadImage(webDriver)
     post(webDriver)
+    webDriver.implicitly_wait(10) # wait until post is done.
     webDriver.quit()
 
 def getUsernameAndPassword():
@@ -47,21 +48,21 @@ def findByCssSelector(webDriver, cssSelector):
 def uploadImage(webDriver):
     webDriver.get(_facebookPage)
     webDriver.implicitly_wait(10)
+    message = getMessage(sys.argv[1:])
+    print("MSG: " + message)
+    textArea = findByCssSelector(webDriver, 'textarea[title*="something"]')
+    textArea.send_keys(message)
     findByCssSelector(webDriver, "a[data-endpoint*='composerx/attachment/media']").click()
     webDriver.implicitly_wait(3)
     upload = findByCssSelector(webDriver, "input[aria-label*='Upload Photos/Video']")
+    print("Uploading image: " + _file)
     upload.send_keys(_file)
-    print("Uploading image...")
 
 def post(webDriver):
     button = WebDriverWait(webDriver, 30).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "button[aria-label='Post']"))
     )
-    message = getMessage(sys.argv[1:])
-    print("POSTING PICTURE WITH MSG: " + message)
-    # textArea = findByCssSelector(webDriver, 'textarea[title*="something"]')
-    webDriver.implicitly_wait(2)
-    # textArea.send_keys(message)
+    print("POSTING IMG!")
     button.click()
 
 def getMessage(argv):
@@ -74,7 +75,7 @@ def getMessage(argv):
     for opt, arg in opts:
         if opt in ("-m", "--message"):
             return arg
-    return args;
+    return defaultMessage;
 
 
 if __name__ == "__main__":
