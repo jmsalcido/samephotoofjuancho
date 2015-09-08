@@ -1,4 +1,4 @@
-# The Same Photo Of Juan in a Sonic Costume
+# The same photo of Juan in a Sonic costume everyday
 [Yup, that's the actual name.](https://www.facebook.com/pages/The-same-photo-of-Juan-in-a-Sonic-costume-everyday/1549049825344078)
 
 Basically, this is a *python* script to upload a picture to a facebook page using phantomjs.
